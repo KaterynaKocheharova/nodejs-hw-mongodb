@@ -3,6 +3,7 @@ import createHttpError from 'http-errors';
 export const validateBody = (schema) => {
   return async (req, res, next) => {
     const body = req.body;
+    console.log(body);
     try {
       await schema.validateAsync(body, { abortEarly: false });
       next();
@@ -14,4 +15,5 @@ export const validateBody = (schema) => {
       next(validationError);
     }
   };
+
 };

@@ -4,12 +4,15 @@ import { ContactsCollection } from '../db/models/contacts.js';
 export const checkAccess = async (req, res, next) => {
   const { user } = req;
 
+
+
   if (!user) {
     next(createHttpError(401));
     return;
   }
 
   const { contactId } = req.params;
+
 
   if (!contactId) {
     next(createHttpError(403));
@@ -21,9 +24,10 @@ export const checkAccess = async (req, res, next) => {
     userId: user._id,
   });
 
+  //  ======================== LOGS
+  console.log(user._id);
+  console.log(contactId);
   console.log(contact);
-
-  next();
 
   if (contact) {
     next();
