@@ -3,20 +3,23 @@ import { ContactsCollection } from '../db/models/contacts.js';
 
 export const checkAccess = async (req, res, next) => {
   const { user } = req;
+
   if (!user) {
     next(createHttpError(401));
     return;
   }
 
   const { contactId } = req.params;
-  console.log(contactId);
+
 
   if (!contactId) {
     next(createHttpError(403));
     return;
   }
 
-  console.log(user._id);
+
+  console.log(typeof contactId);
+  console.log(typeof user._id);
 
   const contact = await ContactsCollection.findOne({
     _id: contactId,
@@ -25,10 +28,12 @@ export const checkAccess = async (req, res, next) => {
 
   console.log(contact);
 
-  if(contact) {
-    next();
-    return;
-  }
+  next();
 
-  next(createHttpError(403));
+  // if(contact) {
+  //   next();
+  //   return;
+  // }
+
+  // next(createHttpError(403));
 };
