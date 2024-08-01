@@ -11,15 +11,10 @@ export const checkAccess = async (req, res, next) => {
 
   const { contactId } = req.params;
 
-
   if (!contactId) {
     next(createHttpError(403));
     return;
   }
-
-
-  console.log(typeof contactId);
-  console.log(typeof user._id);
 
   const contact = await ContactsCollection.findOne({
     _id: contactId,
@@ -30,10 +25,10 @@ export const checkAccess = async (req, res, next) => {
 
   next();
 
-  // if(contact) {
-  //   next();
-  //   return;
-  // }
+  if (contact) {
+    next();
+    return;
+  }
 
-  // next(createHttpError(403));
+  next(createHttpError(403));
 };
