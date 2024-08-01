@@ -22,6 +22,10 @@ export const createContactValidationSchema = Joi.object({
   contactType: Joi.string().valid('work', 'home', 'personal').messages({
     'any.only': 'Contact should be of type work, home, or personal'
   }),
+  userId: Joi.string().required().messages({
+    'string.base': "User id should be a string",
+    'any: required': "User id is required"
+  })
 });
 
 export const updateContactValidationSchema = Joi.object({
@@ -46,5 +50,9 @@ export const updateContactValidationSchema = Joi.object({
   contactType: Joi.string().valid('work', 'home', 'personal').messages({
     'any.only': 'Contact should be of type work, home, or personal'
   }),
+  userId: Joi.string().required().messages({
+    'string.base': "User id should be a string",
+    'any: required': "User id is required"
+  })
 });
 
