@@ -43,6 +43,7 @@ export const createContactController = async (req, res) => {
     phoneNumber: req.body.phoneNumber,
     isFavorite: req.body.isFavorite,
     type: req.body.contactType,
+    userId: req.body.userId
   });
   res.status(201).send({
     status: 201,

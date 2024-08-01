@@ -1,10 +1,9 @@
 import createHttpError from 'http-errors';
 import { ContactsCollection } from '../db/models/contacts.js';
+import {ObjectId} from "mongodb";
 
 export const checkAccess = async (req, res, next) => {
   const { user } = req;
-
-
 
   if (!user) {
     next(createHttpError(401));
@@ -12,7 +11,6 @@ export const checkAccess = async (req, res, next) => {
   }
 
   const { contactId } = req.params;
-
 
   if (!contactId) {
     next(createHttpError(403));
@@ -25,8 +23,8 @@ export const checkAccess = async (req, res, next) => {
   });
 
   //  ======================== LOGS
-  console.log(user._id);
   console.log(contactId);
+  console.log(user._id);
   console.log(contact);
 
   if (contact) {
@@ -36,3 +34,5 @@ export const checkAccess = async (req, res, next) => {
 
   next(createHttpError(403));
 };
+
+

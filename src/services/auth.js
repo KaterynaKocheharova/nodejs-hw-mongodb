@@ -6,7 +6,9 @@ import { createSession } from './utils.js';
 
 // ======================================= REGISTER
 export const registerUser = async (userData) => {
-  const alreadyExistingUser = await UsersCollection.findOne({ email: userData.email });
+  const alreadyExistingUser = await UsersCollection.findOne({
+    email: userData.email,
+  });
   if (alreadyExistingUser !== null) {
     throw createHttpError(409, 'User with this email already exists');
   }
