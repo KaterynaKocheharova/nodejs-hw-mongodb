@@ -16,10 +16,14 @@ export const checkAccess = async (req, res, next) => {
     return;
   }
 
+  console.log(user._id);
+
   const contact = await ContactsCollection.findOne({
     _id: contactId,
     userId: user._id,
   });
+
+  console.log(contact);
 
   if(contact) {
     next();

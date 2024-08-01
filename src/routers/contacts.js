@@ -27,7 +27,6 @@ router.post(
   '/',
   jsonParser,
   validateBody(createContactValidationSchema),
-  checkAccess,
   ctrlWrapper(createContactController),
 );
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
