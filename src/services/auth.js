@@ -1,6 +1,5 @@
 // src/services/auth
 
-
 import jwt from 'jsonwebtoken';
 import handlebars from 'handlebars';
 import path from 'node:path';
@@ -14,8 +13,6 @@ import createHttpError from 'http-errors';
 import { User } from '../db/models/user.js';
 import { Session } from '../db/models/session.js';
 import { createSession } from './utils.js';
-
-
 
 // ======================================= REGISTER
 export const registerUser = async (userData) => {
@@ -81,7 +78,7 @@ export const refreshUsersSession = async ({ refreshToken, userId }) => {
 
 export const logOut = (sessionId) => Session.deleteOne({ _id: sessionId });
 
-// ==================================== RESET PASSWORD
+// ==================================== REQUEST RESET PASSWORD
 
 export const requestResetToken = async (email) => {
   const user = await User.findOne({ email });
@@ -119,4 +116,33 @@ export const requestResetToken = async (email) => {
     subject: 'Reset your password',
     html,
   });
+};
+
+// ================================== RESET PASSWORD
+
+export const resetPassword = async (payload) => {
+  let entries;
+
+  try {
+    entries = jwt.verify(payload.token, env('JWT_SECRET'));
+  } catch (error) {
+    if (error instanceof Error) {
+      throw createHttpError(401, error.message);
+    } else {
+      throw error;
+    }
+  }
+
+  const user = await User.findOne({
+    email: entries.email,
+    _id: entries.sub,
+  });
+
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  const encryptedPassword = await bcrypt.hash(payload.password, 10);
+
+  await User.updateOne({ _id: user._id }, { password: encryptedPassword });
 };
